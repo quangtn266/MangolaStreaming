@@ -1,9 +1,18 @@
 package com.quangtn.streaming;
 
+import com.quangtn.streaming.aggregations.*;
+import com.quangtn.streaming.aggregations.functions.*;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import org.apache.flink.api.common.time.Time;
 import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.ByteArrayDeserializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
+import java.util.Properties;
 
 public class StreamingJob {
 
@@ -76,6 +85,52 @@ public class StreamingJob {
                 .name("Count Postback in a Windowed Stream");
 
         // Serialize for Aggregated objects.
+        val aggregatedBidReqJsonSerializer = new JsonSerializer<AggregatedBidReq>();
+        val aggregatedBidRespJsonSerializer = new JsonSerializer<AggregatedBidResp>();
+        val aggregatedWinNotificationJsonSerializer = new JsonSerializer<AggregatedWin>();
+        val aggregatedImpressionJsonSerializer = new JsonSerializer<AggregatedImpression>();
+        val aggregatedClickJsonSerializer = new JsonSerializer<AggregatedClick>();
+        val aggregatedConversionJsonSerializer = new JsonSerializer<AggregatedConversion>();
+        val aggregatedPostbackJsonSerializer = new JsonSerializer<AggregatedPostback>();
 
+        // Sinks for aggregated objects
+        val aggregatedBidReqKafkaSink = new FlinkKafkaProducer011<AggregatedBidReq>(KafkaTopics.AGGREGATED_BID_REQ, aggregatedBidReqJsonSerializer, kafkaProperties());
+        val aggregatedBidRespKafkaSink = new FlinkKafkaProducer011<AggregatedBidResp>(KafkaTopics.AGGREGATED_BID_RESP, aggregatedBidRespJsonSerializer, kafkaProperties());
+        val aggregatedWinKafkaSink = new FlinkKafkaProducer011<AggregatedWin>(KafkaTopics.AGGREGATED_WINS, aggregatedWinNotificationJsonSerializer, kafkaProperties());
+        val aggregatedImpressionKafkaSink = new FlinkKafkaProducer011<AggregatedImpression>(KafkaTopics.AGGREGATED_IMPRESSIONS, aggregatedImpressionJsonSerializer, kafkaProperties());
+        val aggregatedClickKafkaSink = new FlinkKafkaProducer011<AggregatedClick>(KafkaTopics.AGGREGATED_CLICKS, aggregatedClickJsonSerializer, kafkaProperties());
+        val aggregatedConversionKafkaSink = new FlinkKafkaProducer011<AggregatedConversion>(KafkaTopics.AGGREGATED_CONVERSIONS, aggregatedConversionJsonSerializer, kafkaProperties());
+        val aggregatedPostbackKafkaSink = new FlinkKafkaProducer011<AggregatedPostback>(KafkaTopics.AGGREGATED_POSTBACKS, aggregatedPostbackJsonSerializer, kafkaProperties());
+
+        // attached sink to aggregated streams
+        aggregatedBidReqStream.addSink(aggregatedBidReqKafkaSink);
+        aggregatedBidRespStream.addSink(aggregatedBidRespKafkaSink);
+        aggregatedWinStream.addSink(aggregatedWinKafkaSink);
+        aggregatedImpressionStream.addSink(aggregatedImpressionKafkaSink);
+        aggregatedClickStream.addSink(aggregatedClickKafkaSink);
+        aggregatedConversionStream.addSink(aggregatedConversionKafkaSink);
+        aggregatedPostbackStream.addSink(aggregatedPostbackKafkaSink);
+
+        // execute program
+        flinkEnv.execute("Count events in a time window for the mangola platform");
+    }
+
+    private static Properties kafkaProperties() {
+        val properties = new Properties();
+
+        // each key in Kafka is String
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        // Each value is a byte[] (Each value is a JSON string encoded as bytes)
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class);
+
+        // Zookeeper default host:port
+        properties.setProperty("zookeeper.connect", "localhost:2181");
+
+        // Broker default host:port
+        properties.setProperty("bootstrap.servers", "localhost:9092");
+
+        properties.setProperty("group.id", "mangola-flink-streams-processor");
+
+        return properties;
     }
 }

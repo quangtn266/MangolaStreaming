@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class AggregatedPostback {
+public class AggregatedImpression {
 
     @JsonProperty(value = "uuid", required = true)
     @JsonSerialize(using = UUIDSerializer.class)
@@ -32,14 +32,10 @@ public class AggregatedPostback {
 
     @JsonProperty(value = "creativeId", required = true)
     private final Integer creativeId;
-
     @JsonProperty(value = "count", required = true)
     private final Integer count;
 
     @JsonProperty(value = "timestamp", required = true)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     private final ZonedDateTime timestamp;
-
-    @JsonProperty(value = "event", required = true)
-    private final String event;
 }

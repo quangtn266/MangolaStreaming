@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @Data
-public class WinNotification {
+public class BidReq {
 
     @JsonProperty(value = "advId", required = true)
     private final Integer advId;
@@ -22,12 +22,6 @@ public class WinNotification {
 
     @JsonProperty(value = "sourceId", required = true)
     private final Integer sourceId;
-
-    @JsonProperty(value = "campaignId", required = true)
-    private final Integer campaignId;
-
-    @JsonProperty(value = "creativeId", required = true)
-    private final Integer creativeId;
 
     @JsonProperty(value = "timestamp", required = true)
     @JsonDeserialize(using = ZonedDateTimeDeserializer.class)

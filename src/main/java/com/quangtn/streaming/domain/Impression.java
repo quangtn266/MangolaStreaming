@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @Data
-public class WinNotification {
+public class Impression {
 
     @JsonProperty(value = "advId", required = true)
     private final Integer advId;

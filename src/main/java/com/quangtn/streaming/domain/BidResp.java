@@ -1,5 +1,6 @@
 package com.quangtn.streaming.domain;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -12,7 +13,7 @@ import java.time.ZonedDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
 @Data
-public class WinNotification {
+public class BidResp {
 
     @JsonProperty(value = "advId", required = true)
     private final Integer advId;

@@ -39,4 +39,10 @@ public class AggregatedConversion {
     @JsonProperty(value = "timestamp", required = true)
     @JsonSerialize(using = ZonedDateTimeSerializer.class)
     private final ZonedDateTime timestamp;
+
+    @JsonProperty(value = "event", required = true)
+    private final String event;
+
+    @JsonProperty(value = "eventCode", required = true)
+    private final Integer eventCode;
 }

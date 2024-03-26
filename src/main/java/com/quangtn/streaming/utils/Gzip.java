@@ -28,7 +28,7 @@ public class Gzip {
                     try (val bufferReader = new BufferedReader(inputStreamReader)) {
                         val output = new StringBuilder();
                         String line;
-                        while((line = bufferReader.readline()) != null) {
+                        while((line = bufferReader.readLine()) != null) {
                             output.append(line);
                         }
 

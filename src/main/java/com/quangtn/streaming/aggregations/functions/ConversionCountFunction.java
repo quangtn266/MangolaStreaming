@@ -37,7 +37,7 @@ public class ConversionCountFunction implements WindowFunction<Conversion, Aggre
 
         val aggregation = AggregatedConversion.builder().uuid(uuid).advId(advId).sourceId(sourceId)
                 .clientId(clientId).campaignId(campaignId).creativeId(creativeId).timestamp(minute)
-                .eventCode(eventcode).event(event).count(count).build();
+                .eventCode(eventCode).event(event).count(count).build();
 
         collector.collect(aggregation);
     }

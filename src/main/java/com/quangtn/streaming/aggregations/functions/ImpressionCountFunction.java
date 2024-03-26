@@ -33,7 +33,7 @@ public class ImpressionCountFunction implements WindowFunction<Impression, Aggre
         val uuid = UUID.randomUUID();
 
         val aggregation = AggregatedImpression.builder().uuid(uuid).advId(advId).sourceId(sourceId)
-                .clientId(clientId).campaignId(campaignId).creative(creativeId).timestamp(minute)
+                .clientId(clientId).campaignId(campaignId).creativeId(creativeId).timestamp(minute)
                 .count(count).build();
 
         collector.collect(aggregation);

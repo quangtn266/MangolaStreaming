@@ -33,7 +33,7 @@ public class BidReqWindowCountFunction implements WindowFunction<BidReq, Aggrega
         val uuid = UUID.randomUUID();
 
         val aggregation = AggregatedBidReq.builder().uuid(uuid).advId(advId).sourceId(sourceId)
-                .clientId(clientId).timestamp(minute).count(count).builder();
+                .clientId(clientId).timestamp(minute).count(count).build();
 
         collector.collect(aggregation);
     }

@@ -15,7 +15,7 @@ import java.util.Objects;
 public class WinNotificationGzipJsonDeserializer implements DeserializationSchema<WinNotification> {
 
     @Override
-    public WinNotification deserialization(final byte[] bytes) throws IOException  {
+    public WinNotification deserialize(final byte[] bytes) throws IOException  {
         WinNotification winNotification = null;
         if(Objects.nonNull(bytes)) {
             try {

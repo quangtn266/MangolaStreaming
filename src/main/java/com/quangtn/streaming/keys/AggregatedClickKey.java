@@ -29,7 +29,7 @@ public class AggregatedClickKey implements KeySelector<Click,
         val city = click.getCity();
         val country = click.getCountry();
         val province = click.getProvince();
-        val platform = click.getPlatfomr();
+        val platform = click.getPlatform();
 
         return new Tuple12<>(advId, sourceId, clientId, campaignId, creativeId, eventCode, minute,
         carrier, city, country, province, platform);

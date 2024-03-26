@@ -8,6 +8,7 @@ import com.quangtn.streaming.domain.*;
 import com.quangtn.streaming.keys.*;
 import com.quangtn.streaming.serializers.JsonSerializer;
 import lombok.val;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -16,6 +17,7 @@ import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 
 import java.util.Properties;
 
@@ -26,10 +28,20 @@ public class StreamingJob {
     private static final boolean ENABLE_INCREMENTAL_CHECKPOINT = true;
 
     public static void main(String[] args) throws Exception {
-        val flinkEnv = StreamExecutionEnvironment.getExecutionEnvironment();
+
+    /*    Configuration conf = new Configuration();
+        conf.setString("state.backend", "rocksdb");
+        conf.setString("state.backend.rocksdb.localdir", "/tmp");
+        conf.setString("state.checkpoints.dir", ROCKS_DB_CHECKPOINT_URI);
+        conf.setString("execution.checkpointing.interval", "10s");
+        conf.setString("state.checkpoints.num-retained", "2");*/
+
+        //val flinkEnv = StreamExecutionEnvironment.getExecutionEnvironment();
+        StreamExecutionEnvironment flinkEnv = StreamExecutionEnvironment.getExecutionEnvironment();
+
 
         // using rocksdb backend.
-        flinkEnv.setStateBackend(new RocksDBStateBackend(ROCKS_DB_CHECKPOINT_URI, ENABLE_INCREMENTAL_CHECKPOINT));
+        flinkEnv.setStateBackend(new FsStateBackend(ROCKS_DB_CHECKPOINT_URI)); //, ENABLE_INCREMENTAL_CHECKPOINT));
 
         // Deserializers
         val bidReqGzipJsonDeserializer = new BidReqGzipJsonDeserializer();

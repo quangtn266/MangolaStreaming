@@ -19,7 +19,7 @@ public class Gzip {
         }
 
         if(!isZipped(compressed)) {
-            return new String(compressed)
+            return new String(compressed);
         }
 
         try (val byteArrayInputStream = new ByteArrayInputStream(compressed)) {

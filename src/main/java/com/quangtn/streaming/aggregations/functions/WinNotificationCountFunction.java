@@ -1,6 +1,7 @@
 package com.quangtn.streaming.aggregations.functions;
 
 import com.quangtn.streaming.aggregations.AggregatedWin;
+import com.quangtn.streaming.domain.WinNotification;
 import org.apache.flink.api.java.tuple.Tuple6;
 import org.apache.flink.shaded.guava18.com.google.common.collect.Iterables;
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;

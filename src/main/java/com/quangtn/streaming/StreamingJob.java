@@ -2,8 +2,13 @@ package com.quangtn.streaming;
 
 import com.quangtn.streaming.aggregations.*;
 import com.quangtn.streaming.aggregations.functions.*;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import org.apache.flink.api.common.time.Time;
+import com.quangtn.streaming.constants.KafkaTopics;
+import com.quangtn.streaming.deserializers.*;
+import com.quangtn.streaming.domain.*;
+import com.quangtn.streaming.keys.*;
+import com.quangtn.streaming.serializers.JsonSerializer;
+import lombok.val;
+import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.contrib.streaming.state.RocksDBStateBackend;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
@@ -57,7 +62,7 @@ public class StreamingJob {
         val bidReqWindowedStream = bidReqStream.keyBy(new AggregatedBidReqKey()).timeWindow(Time.minutes(1));
         val bidRespWindowedStream = bidRespStream.keyBy(new AggregatedBidRespKey()).timeWindow(Time.minutes(1));
         val winNotificationWindowedStream = winNotificationStream.keyBy(new AggregatedWinNotificationKey()).timeWindow(Time.minutes(1));
-        val impressionWindowedStream = impressionStream.keyBy(new AggregatedImpressionReqKey()).timeWindow(Time.minutes(1));
+        val impressionWindowedStream = impressionStream.keyBy(new AggregatedImpressionKey()).timeWindow(Time.minutes(1));
         val clickWindowedStream = clickStream.keyBy(new AggregatedClickKey()).timeWindow(Time.minutes(1));
         val conversionWindowedStream = conversionStream.keyBy(new AggregatedConversionKey()).timeWindow(Time.minutes(1));
         val postbackWindowedStream = postbackStream.keyBy(new AggregatedPostbackKey()).timeWindow(Time.minutes(1));

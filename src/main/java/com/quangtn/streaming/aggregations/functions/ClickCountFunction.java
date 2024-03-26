@@ -1,17 +1,18 @@
 package com.quangtn.streaming.aggregations.functions;
 
 import com.quangtn.streaming.aggregations.AggregatedClick;
+import com.quangtn.streaming.domain.Click;
 import org.apache.flink.shaded.guava18.com.google.common.collect.Iterables;
 import org.apache.flink.streaming.api.functions.windowing.WindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
-import scala.Tuple12;
+import org.apache.flink.api.java.tuple.Tuple12;
+import lombok.val;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
-import java.util.stream.Collector;
+import org.apache.flink.util.Collector;
 
-public class ClickCountFunction implements WindowFunction<Click, AggregatedClick,
-        Tuple12<Integer, Integer, Integer, Integer, Integer, Integer, ZonedDateTime,
+public class ClickCountFunction implements WindowFunction<Click, AggregatedClick, Tuple12<Integer, Integer, Integer, Integer, Integer, Integer, ZonedDateTime,
                 String, String, String, String, String>, TimeWindow> {
 
     @Override

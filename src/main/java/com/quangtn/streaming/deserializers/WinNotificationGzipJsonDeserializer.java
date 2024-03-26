@@ -20,7 +20,7 @@ public class WinNotificationGzipJsonDeserializer implements DeserializationSchem
         if(Objects.nonNull(bytes)) {
             try {
                 val json = Gzip.decompress(bytes);
-                winNotification = Json.toObject(json, WinNotification.class)''
+                winNotification = Json.toObject(json, WinNotification.class);
             } catch (final Exception e) {
                 log.error("", e.getMessage());
             }

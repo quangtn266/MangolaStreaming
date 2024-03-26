@@ -15,7 +15,7 @@ import java.util.UUID;
 public class AggregatedWin {
 
     @JsonProperty(value = "uuid", required = true)
-    @JsonProperty(using = UUIDSerializer.class)
+    @JsonSerialize(using = UUIDSerializer.class)
     private final UUID uuid;
 
     @JsonProperty(value = "advId", required = true)

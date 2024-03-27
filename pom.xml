@@ -12,7 +12,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <flink.version>1.4.1</flink.version>
+        <flink.version>1.8.0</flink.version>
     </properties>
 
 
@@ -35,6 +35,18 @@
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.12</version>
+        </dependency>
+
         <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -86,12 +98,12 @@
         </dependency>
 
         <!--ROCKS DB-->
-<!--        <dependency>
+        <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-statebackend-rocksdb_2.11</artifactId>
-            <version>${flink.version}</version>
+            <artifactId>flink-statebackend-rocksdb</artifactId>
+            <version>1.19.0</version>
             <scope>test</scope>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-statebackend-rocksdb_2.11</artifactId>
@@ -265,11 +277,14 @@
                             <!-- If you want to use ./bin/flink run <quickstart jar> uncomment the following lines.
                             This will add a Main-Class entry to the manifest file -->
 
-                            <!--<transformers>-->
-                            <!--<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-
-                            <!--</transformer>-->
-                            <!--</transformers>-->
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.github.quangtn.streaming.StreamingJob</mainClass>
+                                </transformer>
+                            </transformers>
 
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>

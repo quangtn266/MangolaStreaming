@@ -21,8 +21,8 @@ public class AggregatedPostbackKey implements KeySelector<Postback,
         val campaignId = postback.getCampaignId();
         val creativeId = postback.getCreativeId();
         val event = postback.getEvent();
-        val minute = TimeUtil.roundOffToMinute(postback.getTimestamp());
+        val minute  = TimeUtil.roundOffToMinute(postback.getTimestamp());
 
-        return new Tuple7<>(advId, sourceId, clientId, campaignId, creativeId, event, minute);
+        return new Tuple7<>(advId, sourceId, clientId, campaignId, creativeId, minute, event);
     }
 }

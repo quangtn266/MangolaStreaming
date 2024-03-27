@@ -7,6 +7,6 @@ public class TimeUtil {
 
     public static ZonedDateTime roundOffToMinute(ZonedDateTime timestamp) {
         Assert.notNull(timestamp, "timestamp can't be null");
-        return ZonedDateTime.of(timestamp.toLocalDateTime(), ZoneId("UTC"));
+        return ZonedDateTime.of(timestamp.toLocalDateTime(), ZoneId.of("UTC"));
     }
 }
